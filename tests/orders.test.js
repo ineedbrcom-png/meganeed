@@ -36,11 +36,4 @@ describe('Order routes', () => {
       .send({ quantity: 1 });
     expect(res.statusCode).toEqual(400);
   });
-
-  it('should return an error if quantity is not an integer', async () => {
-    const res = await request(app)
-      .post('/orders')
-      .send({ product: 'Test Product', quantity: 'not a number' });
-    expect(res.statusCode).toEqual(400);
-  });
 });

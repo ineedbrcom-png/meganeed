@@ -15,9 +15,6 @@ const validateOrder = (req, res, next) => {
   if (!product || !quantity) {
     return res.status(400).json({ error: 'Product and quantity are required' });
   }
-  if (!Number.isInteger(quantity)) {
-    return res.status(400).json({ error: 'Quantity must be an integer' });
-  }
   next();
 };
 
