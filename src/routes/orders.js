@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-// Mock order data
-let orders = [];
+const db = require('../db');
 
 // Get all orders
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  const orders = await db('orders').select();
   res.json(orders);
 });
 
@@ -19,9 +19,8 @@ const validateOrder = (req, res, next) => {
 };
 
 // Create a new order
-router.post('/', validateOrder, (req, res) => {
-  const order = req.body;
-  orders.push(order);
+router.post('/', validateOrder, async (req, res) => {
+  const [order] = await db('orders').insert(req.body).returning('*');
   res.status(201).json(order);
 });
 
