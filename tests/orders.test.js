@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../src/index');
+const { app } = require('../src/index');
 
 describe('Order routes', () => {
   it('should get all orders', async () => {
