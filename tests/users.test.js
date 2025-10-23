@@ -24,16 +24,24 @@ describe('User routes', () => {
   it('should create a new user', async () => {
     const res = await request(app)
       .post('/users')
-      .send({ name: 'Test User', email: 'test@example.com' });
+      .send({ name: 'Test User', email: 'test@example.com', password: 'password123' });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('id');
     expect(res.body).toHaveProperty('name', 'Test User');
+    expect(res.body).not.toHaveProperty('password');
   });
 
   it('should return an error if name is missing', async () => {
     const res = await request(app)
       .post('/users')
-      .send({ email: 'test@example.com' });
+      .send({ email: 'test@example.com', password: 'password123' });
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('should return an error if password is missing', async () => {
+    const res = await request(app)
+      .post('/users')
+      .send({ name: 'Test User', email: 'test@example.com' });
     expect(res.statusCode).toEqual(400);
   });
 });
