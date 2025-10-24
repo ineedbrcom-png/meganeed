@@ -22,6 +22,12 @@ const validateUser = (req, res, next) => {
 // Create a new user
 router.post('/', validateUser, async (req, res) => {
   const { name, email, password } = req.body;
+
+  const existingUser = await db('users').where({ email }).first();
+  if (existingUser) {
+    return res.status(409).json({ error: 'Email already in use' });
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const [user] = await db('users')

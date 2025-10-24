@@ -44,4 +44,16 @@ describe('User routes', () => {
       .send({ name: 'Test User', email: 'test@example.com' });
     expect(res.statusCode).toEqual(400);
   });
+
+  it('should return an error if email is already in use', async () => {
+    await request(app)
+      .post('/users')
+      .send({ name: 'Test User 1', email: 'test@example.com', password: 'password123' });
+
+    const res = await request(app)
+      .post('/users')
+      .send({ name: 'Test User 2', email: 'test@example.com', password: 'password456' });
+
+    expect(res.statusCode).toEqual(409);
+  });
 });
